@@ -10,6 +10,6 @@ def execute(code, input_):
 
 try:
   content = open("hello.bf", 'r').read()
-  execute(content, "mortim")
+  execute(content, "")
 except FileNotFoundError:
   print("File not found.")
