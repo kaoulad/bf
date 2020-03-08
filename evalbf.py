@@ -1,10 +1,12 @@
 from abc import *
+import sys
+
+sys.setrecursionlimit(10000)
 
 class BF:
   def __init__(self, input_=""):
     self.memory = [0] * 30000
     self.index = 0
-    self.output = []
     self.input = list(input_)
 
 # ----------------------------------
@@ -62,7 +64,7 @@ class Output(Instruction):
         return "Output"
 
     def eval(self, state):
-        state.output.append(chr(state.memory[state.index]))
+        print(chr(state.memory[state.index]), end='')
 
 # -----------------------------------
 

@@ -8,6 +8,8 @@ def execute(code, input_):
   for instr in instrs:
     instr.eval(state)
 
-  return "".join(state.output)
-
-print(execute("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.", ""))
+try:
+  content = open("hello.bf", 'r').read()
+  execute(content, "mortim")
+except FileNotFoundError:
+  print("File not found.")

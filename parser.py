@@ -1,16 +1,20 @@
 import evalbf
 
+def pos_brackets(code):
+    opening = list()
+    loop = dict()
+    
+    for i,c in enumerate(code):
+        if c == '[':
+            opening.append(i)
+        elif c == ']':
+            begin = opening.pop()
+            loop[begin] = i
 
-def parse_loop(code, parsedLoop):
-        in_loop = code[1:][0:code[1:].index(']')]
-        out_loop = code[1:][code[1:].index(']')+1:]
-
-        parsed_ = parse(in_loop, [])
-        return {"parsed_loop": evalbf.Loop(parsed_), "out_loop": out_loop}
-        
+    return dict(sorted(loop.items()))
 
 def parse(c, parsed):
-    
+
     if c != '':
         if c[:1] == '+':
             parsed.append(evalbf.Incr())
@@ -36,10 +40,14 @@ def parse(c, parsed):
             parsed.append(evalbf.Input())
             return parse(c[1:], parsed)
 
+        elif c[:1] == '[':
+            br = list(pos_brackets(c).items())[0]
+            content = parse(c[1:br[1]], [])
+            parsed.append(evalbf.Loop(content))
+            return parse(c[br[1]:], parsed)
+
         else:
-            parsing_loop = parse_loop(c, [])
-            parsed.append( parsing_loop['parsed_loop'] )
-            return parse(parsing_loop['out_loop'], parsed)
+           return parse(c[1:], parsed)
 
     else:
         return parsed
