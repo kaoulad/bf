@@ -1,4 +1,4 @@
-import evalbf
+import lib.evalbf as evalbf
 
 def pos_brackets(code):
     opening = list()

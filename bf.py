@@ -1,5 +1,5 @@
-import parser
-import evalbf
+import lib.parser as parser
+import lib.evalbf as evalbf
 
 def execute(code, input_):
   instrs = parser.parse(code, [])
