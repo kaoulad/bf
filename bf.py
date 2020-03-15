@@ -9,7 +9,7 @@ def execute(code, input_):
     instr.eval(state)
 
 try:
-  content = open("hello.bf", 'r').read()
+  content = open("examples/hello.bf", 'r').read()
   execute(content, "")
 except FileNotFoundError:
   print("File not found.")

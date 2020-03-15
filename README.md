@@ -19,22 +19,22 @@ You have to create brainfuck file.
 ### Examples
 
 ```
-execute("hello.bf", "")
+execute("examples/hello.bf", "")
 
 # Output: Hello World!
 ```
 
 ```
-execute("input.bf", "hello")
+execute("examples/input.bf", "hello")
 
 # Output: hello
 ```
 
 ```
-execute("mandelbrot.bf", "")
+execute("examples/mandelbrot.bf", "")
 # Output
 ```
 
-![mandelbrot](mandelbrot.png)
+![mandelbrot](assets/mandelbrot.png)
 
 
