@@ -2,7 +2,7 @@ import lib.parser as parser
 import lib.evalbf as evalbf
 
 def execute(code, input_):
-  instrs = parser.parse(code, [])
+  instrs = parser.parse(code)
   state = evalbf.BF(input_)
 
   for instr in instrs:

@@ -81,11 +81,17 @@ class Input(Instruction):
 
 class Loop(Instruction):
 
-    def __init__(self, instr):
+    def __init__(self, instr=[]):
         self.instr = instr
 
     def __repr__(self):
         return f"Loop {self.instr}"
+    
+    def value(self):
+        return self.instr
+
+    def append(self, s):
+        self.value().append(s)
 
     def eval(self, state):
         while state.memory[state.index] != 0:

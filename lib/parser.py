@@ -1,53 +1,32 @@
 import lib.evalbf as evalbf
+from copy import deepcopy
 
-def pos_brackets(code):
-    opening = list()
-    loop = dict()
-    
-    for i,c in enumerate(code):
-        if c == '[':
-            opening.append(i)
-        elif c == ']':
-            begin = opening.pop()
-            loop[begin] = i
+INSTRS = {
+        '+': evalbf.Incr(), 
+        '-': evalbf.Decr(), 
+        '>': evalbf.MoveIncr(), 
+        '<': evalbf.MoveDecr(), 
+        '.': evalbf.Output(), 
+        ',': evalbf.Input()
+    }
 
-    return dict(sorted(loop.items()))
+# -------------------------------------
 
-def parse(c, parsed):
+def parse(c):
+    ast = []
+    stack = [ast]
 
-    if c != '':
-        if c[:1] == '+':
-            parsed.append(evalbf.Incr())
-            return parse(c[1:], parsed)
-
-        elif c[:1] == '-':
-            parsed.append(evalbf.Decr())
-            return parse(c[1:], parsed)
-
-        elif c[:1] == '>':
-            parsed.append(evalbf.MoveIncr())
-            return parse(c[1:], parsed)
-
-        elif c[:1] == '<':
-            parsed.append(evalbf.MoveDecr())
-            return parse(c[1:], parsed)
-
-        elif c[:1] == '.':
-            parsed.append(evalbf.Output())
-            return parse(c[1:], parsed)
-
-        elif c[:1] == ',':
-            parsed.append(evalbf.Input())
-            return parse(c[1:], parsed)
-
-        elif c[:1] == '[':
-            br = list(pos_brackets(c).items())[0]
-            content = parse(c[1:br[1]], [])
-            parsed.append(evalbf.Loop(content))
-            return parse(c[br[1]:], parsed)
-
+    for x in c:
+        if x in INSTRS.keys():
+            stack[-1].append(INSTRS[x])
+        elif x == '[':
+            obj = deepcopy(evalbf.Loop())
+            stack.append(obj)
+        elif x == ']':
+            if len(stack) >= 2:
+                stack[-2].append(stack[-1])
+                stack.pop()
         else:
-           return parse(c[1:], parsed)
+            pass
 
-    else:
-        return parsed
+    return ast
