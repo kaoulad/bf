@@ -1,4 +1,4 @@
-## bf.py
+## bf
 
 Brainfuck interpreter written in Python.
 
