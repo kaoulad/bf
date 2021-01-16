@@ -1,32 +1,30 @@
-import lib.evalbf as evalbf
-from copy import deepcopy
+import lib.ast as ast
+
+# -------------------------------------
 
 INSTRS = {
-        '+': evalbf.Incr(), 
-        '-': evalbf.Decr(), 
-        '>': evalbf.MoveIncr(), 
-        '<': evalbf.MoveDecr(), 
-        '.': evalbf.Output(), 
-        ',': evalbf.Input()
+        '+': ast.Incr(), 
+        '-': ast.Decr(), 
+        '>': ast.MoveIncr(), 
+        '<': ast.MoveDecr(), 
+        '.': ast.Output(), 
+        ',': ast.Input()
     }
 
 # -------------------------------------
 
 def parse(c):
-    ast = []
-    stack = [ast]
+    result = []
+    stack = [result]
 
     for x in c:
         if x in INSTRS.keys():
             stack[-1].append(INSTRS[x])
         elif x == '[':
-            obj = deepcopy(evalbf.Loop())
+            obj = ast.Loop()
             stack.append(obj)
         elif x == ']':
             if len(stack) >= 2:
                 stack[-2].append(stack[-1])
                 stack.pop()
-        else:
-            pass
-
-    return ast
+    return result

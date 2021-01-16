@@ -1,15 +1,17 @@
-import lib.parser as parser
-import lib.evalbf as evalbf
+from lib.parser import parse
+from lib.bytecode import BF
+from lib.utils import optimize_ast
 
 def execute(code, input_):
-  instrs = parser.parse(code)
-  state = evalbf.BF(input_)
+  state = BF(input_)
+  optimized=optimize_ast(parse(code))
 
-  for instr in instrs:
-    instr.eval(state)
+  # Evaluate each Brainfuck instruction.
+  for ins in optimized:
+    ins.eval(state)
 
 try:
-  content = open("examples/hello.bf", 'r').read()
+  content = open("examples/mandelbrot.bf", 'r').read()
   execute(content, "")
 except FileNotFoundError:
   print("File not found.")
