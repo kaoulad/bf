@@ -1,5 +1,4 @@
-from abc import *
-import sys
+from sys import stdout
 
 class BF:
   def __init__(self, input_=""):
@@ -9,14 +8,7 @@ class BF:
 
 # ----------------------------------
 
-class Instruction(ABC):
-  @abstractmethod
-  def eval(self, state):
-    raise NotImplemented
-
-# ----------------------------------
-
-class Add(Instruction):
+class Add():
     def __init__(self, n):
         self.n = n
 
@@ -28,7 +20,7 @@ class Add(Instruction):
 
 # ----------------------------------
 
-class Remove(Instruction):
+class Remove():
     def __init__(self, n):
         self.n = n
 
@@ -40,42 +32,30 @@ class Remove(Instruction):
 
 # ----------------------------------
 
-class MoveRight(Instruction):
+class Move():
     def __init__(self, n):
         self.n = n
 
     def __repr__(self):
-        return f"MoveRight({self.n})"
+        return f"Move({self.n})"
 
     def eval(self, state):
         state.index += self.n
 
 # ----------------------------------
 
-class MoveLeft(Instruction):
-    def __init__(self, n):
-        self.n = n
-
+class Output():
     def __repr__(self):
-        return f"MoveLeft({self.n})"
+        return "Output"
 
     def eval(self, state):
-        state.index -= self.n
+        stdout.write(chr(state.memory[state.index]))
 
 # ----------------------------------
 
-class Output(Instruction):
+class Input():
     def __repr__(self):
-        return f"Output"
-
-    def eval(self, state):
-        sys.stdout.write(chr(state.memory[state.index]))
-
-# ----------------------------------
-
-class Input(Instruction):
-    def __repr__(self):
-        return f"Input"
+        return "Input"
     
     def eval(self, state):
         if state.input != []:
@@ -83,16 +63,7 @@ class Input(Instruction):
 
 # ----------------------------------
 
-class Clear(Instruction):
-    def __repr__(self):
-        return f"Clear"
-
-    def eval(self, state):
-        state.memory[state.index] = 0
-
-# ----------------------------------
-
-class Loop(Instruction):
+class Loop():
     def __init__(self, inst):
         self.inst = inst
 
@@ -106,5 +77,36 @@ class Loop(Instruction):
 
 # ----------------------------------
 
+class Clear():
+    def __repr__(self):
+        return "Clear"
 
-    
+    def eval(self, state):
+        state.memory[state.index] = 0
+
+# ----------------------------------
+
+class MoveUntilZero():
+    def __init__(self, n):
+        self.n = n
+
+    def __repr__(self):
+        return f"MoveUntilZero({self.n})"
+
+    def eval(self, state):
+        while state.memory[state.index] != 0:
+            state.index += self.n
+
+# ----------------------------------
+
+class Mult():
+    def __init__(self,i,factor):
+        self.i = i
+        self.factor = factor
+
+    def __repr__(self):
+        return f"Mult(i={self.i},factor={self.factor})"
+
+    def eval(self, state):
+        state.memory[state.index+self.i] += self.factor*state.memory[state.index]
+        state.memory[state.index] = 0

@@ -3,12 +3,12 @@ import lib.ast as ast
 # -------------------------------------
 
 INSTRS = {
-        '+': ast.Incr(), 
-        '-': ast.Decr(), 
-        '>': ast.MoveIncr(), 
-        '<': ast.MoveDecr(), 
-        '.': ast.Output(), 
-        ',': ast.Input()
+        '+': ast.Incr, 
+        '-': ast.Decr, 
+        '>': ast.MoveIncr, 
+        '<': ast.MoveDecr, 
+        '.': ast.Output, 
+        ',': ast.Input
     }
 
 # -------------------------------------
@@ -19,7 +19,7 @@ def parse(c):
 
     for x in c:
         if x in INSTRS.keys():
-            stack[-1].append(INSTRS[x])
+            stack[-1].append(INSTRS[x]())
         elif x == '[':
             obj = ast.Loop()
             stack.append(obj)
