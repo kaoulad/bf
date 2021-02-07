@@ -9,7 +9,7 @@ def execute(code, input_):
   # Evaluate each Brainfuck instruction.
   for ins in optimized:
     ins.eval(state)
-  
+    
 try:
   content = open("examples/mandelbrot.bf", 'r').read()
   execute(content, "")

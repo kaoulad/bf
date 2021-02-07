@@ -16,7 +16,10 @@ class Add():
         return f"Add({self.n})"
 
     def eval(self, state):
-        state.memory[state.index] += self.n
+        if state.memory[state.index]+self.n <= 255:
+            state.memory[state.index] += self.n
+        else:
+            state.memory[state.index] = (state.memory[state.index]+self.n)%256
 
 # ----------------------------------
 
@@ -28,7 +31,10 @@ class Remove():
         return f"Remove({self.n})"
     
     def eval(self, state):
-        state.memory[state.index] -= self.n
+        if self.n <= state.memory[state.index]:
+            state.memory[state.index] -= self.n
+        else:
+            state.memory[state.index] = (state.memory[state.index]-self.n)%256
 
 # ----------------------------------
 
@@ -40,7 +46,10 @@ class Move():
         return f"Move({self.n})"
 
     def eval(self, state):
-        state.index += self.n
+        if state.index+self.n <= len(state.memory)-1:
+            state.index += self.n
+        else:
+            state.index = (state.index+self.n)%len(state.memory)
 
 # ----------------------------------
 
