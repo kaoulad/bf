@@ -25,7 +25,7 @@ execute("examples/hello.bf", "")
 ```
 
 ```
-execute("examples/input.bf", "hello")
+execute("examples/echo.bf", "hello")
 
 # Output: hello
 ```
